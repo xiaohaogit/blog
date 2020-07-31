@@ -1,0 +1,20 @@
+1. 下载xadmin源码
+2. 在settings的INSTALLED_APPS中添加
+    crispy_forms 和 xadmin
+    urls.py中添加:
+    url(r'xadmin/', xadmin.site.urls),
+3. 安装xadmin的依赖包
+4. 通过migrate生成xadmin需要的表
+
+
+配置主题：
+import xadmin
+from xadmin import views
+
+
+class BaseSetting(object):
+    enable_themes = True
+    use_bootswatch = True  # 调用更多主题
+
+
+xadmin.site.register(views.BaseAdminView, BaseSetting)

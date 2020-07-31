@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    {% for post in post_list %}
+    <div class="posts-item">
+        <h3><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h3>
+        <hr/>
+        <div class="post-head">
+            <span class="font01">分类 : <a href="{% url 'category-list' post.category_id %}">{{ post.category }}</a>
+                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span></span>
+            <span class="font01">标签 :
+                {% for tag in post.get_tags %}
+                    <a href="{% url 'tag-list' tag.id %}">{{ tag.name }}</a><span>&nbsp;&nbsp;</span>
+                {% endfor %}
+            </span>
+            <span class="font01"><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>发布 : {{ post.created_time }}</span>
+            <span class="font01"><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>浏览数 : {{ post.pv }}</span>
+            <span class="font01"><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>被{{ post.uv }}人查看过</span>
+        </div>
+        <br/>
+        <p class="post-des">{{ post.desc }}</p>
+    </div>
+    {% endfor %}
+{% endblock %}
+
+{% block css %}
+    .posts-item{
+    padding-bottom: 20px;
+    }
+    .font01{
+    color: #999;
+    }
+    .post-des{
+    line-height: 24px;
+    color: #333;
+    }
+{% endblock %}

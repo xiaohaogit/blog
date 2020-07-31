@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}首页{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <style>
+        .cus-bg-color{
+            background-color: #f0ece3 !important;
+            border-radius: 4px;
+        }
+        .index-nav{
+            background-color: #596e79;
+            height: 70px;
+            line-height: 70px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 2;
+        }
+        .index-nav-item{
+            display: inline-block;
+            box-sizing: border-box;
+            height: 70px;
+            line-height: 60px;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 5px 20px;
+            color: white;
+        }
+        .index-nav-item:first-child{
+            margin-left: 10px;
+        }
+        .main-box{
+            padding: 10px;
+        }
+        .search-box{
+            width: 270px;
+            height: 70px;
+            line-height: 70px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            margin-right: 25px;
+        }
+        .position{
+            position: relative;
+        }
+        a{
+            color: #3b6978 !important;
+        }
+        .font18{
+            font-size: 18px !important;
+        }
+        {% block css %}{% endblock %}
+    </style>
+</head>
+<body>
+<div class="index-nav">
+    <div class="container position">
+        <div class="row" style="justify-content: space-between">
+            <div style="display: flex;">
+                <a href="/"><span class="index-nav-item">首页</span></a>
+                {% for cate in navs %}
+                <a  href="{% url 'category-list' cate.id %}"><span class="index-nav-item">{{ cate.name }}</span></a>
+                {% endfor %}
+                <a href="#"><span class="index-nav-item">开源项目</span></a>
+                <a href="#"><span class="index-nav-item">关于博主</span></a>
+            </div>
+
+            <div class="search-box">
+                <form class="form-inline my-2 my-lg-0" action="{% url 'search-list' %}" method="get">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                         name="keyword" value="{{ keyword }}">
+                  <button class="btn btn-outline-success my-2 my-sm-0" style="color: white;
+                  border-color: white;" type="submit">
+                      搜索
+                  </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" style="margin-top: 77px;">
+    <div class="jumbotron jumbotron-fluid cus-bg-color">
+      <div class="container">
+        <h1 class="display-4" style="padding-left: 10px;">欢迎来到xiaohao的博客</h1>
+        <p class="lead" style="text-indent: 2em;">本博客的内容主要围绕python, 以及流行的Python框架Django展开,
+            其中记录的都是小编学习过程中遇到的问题和心得体会。希望对你有用。</p>
+      </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div>
+        <div style="width: 100%;box-sizing: border-box;padding-left: 10px">
+            {% for tag in tags %}
+                <a href="{% url 'tag-list' tag.id %}">{{ tag.name }}</a><span>&nbsp;&nbsp;</span>
+            {% endfor %}
+        </div>
+        <hr/>
+    </div>
+    <div class="row">
+        <nav aria-label="breadcrumb" style="width: 100%;box-sizing: border-box;padding: 0 10px;">
+          <ol class="breadcrumb cus-bg-color">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            {% if category %}
+            <li class="breadcrumb-item active"><a href="{% url 'category-list' category.id %}">{{ category.name }}</a></li>
+            {% elif tag %}
+              <li class="breadcrumb-item active"><a href="{% url 'tag-list' tag.id %}">{{ tag.name }}</a></li>
+            {% endif %}
+          </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-9 main-box">
+            {% block main %}{% endblock %}
+            <div class="container" style="padding: 10px 0;">
+                <div class="pagination" style="display: flex;justify-content: flex-end">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a class="font18" href="?page=1">&laquo; 首页</a>
+                            <a class="font18" href="?page={{ page_obj.previous_page_number }}">上一页</a>
+                        {% endif %}
+
+                        <span class="current font18">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+
+                        {% if page_obj.has_next %}
+                            <a class="font18" href="?page={{ page_obj.next_page_number }}">下一页</a>
+                            <a class="font18" href="?page={{ page_obj.paginator.num_pages }}">尾页 &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            {% for sidebar in sidebars %}
+{#                  <p>{{ sidebar.content }}</p>#}
+                <div class="card" style="margin-top: 5px;margin-bottom: 5px;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ sidebar.display_type.type }}</h5>
+                      {% if sidebar.display_type.type == '最新文章' %}
+                          {% for post in latest_posts %}
+                    <h6 class="card-text"><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h6>
+                          {% endfor %}
+                      {% endif %}
+
+                      {% if sidebar.display_type.type == '热门排行' %}
+                          {% for post in hot_posts %}
+                    <h6 class="card-text"><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h6>
+                          {% endfor %}
+                      {% endif %}
+
+                      {% if sidebar.display_type.type == '最新评论' %}
+                          {% for comment in latest_comment %}
+                    <h6 class="card-text"><a href="{{ comment.target }}">{{ comment.owner.username }}: {{ comment.content }}</a></h6>
+                          {% endfor %}
+                      {% endif %}
+{#                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>#}
+{#                    <a href="#" class="card-link">详情</a>#}
+                  </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="container alert cus-bg-color">
+        <h5 class="text-muted">所有分类:</h5>
+    {% for category in categories %}
+        <a href="{% url 'category-list' category.id %}"><span>&nbsp;&nbsp;{{ category.name }}&nbsp;&nbsp;</span></a>
+    {% endfor %}
+    <hr/>
+</div>
+<div class="container footer text-center" style="margin-top: 30px;margin-bottom: 60px;font-size: 17px">
+    <span class="text-muted">Power by xiaohao</span>
+</div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+</script>
+{% block js %}{% endblock %}
+</html>

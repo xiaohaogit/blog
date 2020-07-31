@@ -1,0 +1,181 @@
+{% load comment_block %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}首页{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <style>
+        .cus-bg-color{
+            background-color: #f0ece3 !important;
+        }
+        .index-nav{
+            background-color: #596e79;
+            height: 70px;
+            line-height: 70px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 2;
+        }
+        .index-nav-item{
+            display: inline-block;
+            box-sizing: border-box;
+            height: 70px;
+            line-height: 60px;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 5px 20px;
+            color: white;
+        }
+        .index-nav-item:first-child{
+            margin-left: 10px;
+        }
+        .main-box{
+            padding: 10px;
+        }
+        .search-box{
+            width: 270px;
+            height: 70px;
+            line-height: 70px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            margin-right: 25px;
+        }
+        .position{
+            position: relative;
+        }
+        a{
+            color: #3b6978 !important;
+        }
+        .font01{
+            color: #999;
+        }
+        .post-content{
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="index-nav">
+    <div class="container position">
+        <div class="row" style="justify-content: space-between">
+            <div style="display: flex;">
+                <a href="/"><span class="index-nav-item">首页</span></a>
+                {% for cate in navs %}
+                <a  href="{% url 'category-list' cate.id %}"><span class="index-nav-item">{{ cate.name }}</span></a>
+                {% endfor %}
+                <a href="#"><span class="index-nav-item">开源项目</span></a>
+                <a href="#"><span class="index-nav-item">关于博主</span></a>
+            </div>
+
+            <div class="search-box">
+                <form class="form-inline my-2 my-lg-0" action="{% url 'search-list' %}" method="get">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                         name="keyword" value="{{ keyword }}">
+                  <button class="btn btn-outline-success my-2 my-sm-0" style="color: white;
+                  border-color: white;" type="submit">
+                      搜索
+                  </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="margin-top: 120px;">
+
+    <div>
+        <div style="width: 100%;box-sizing: border-box;padding-left: 10px">
+            {% for tag in tags %}
+                <a href="{% url 'tag-list' tag.id %}">{{ tag.name }}</a><span>&nbsp;&nbsp;</span>
+            {% endfor %}
+        </div>
+        <hr/>
+    </div>
+    <div class="row">
+        <nav aria-label="breadcrumb" style="width: 100%;box-sizing: border-box;padding: 0 10px;">
+          <ol class="breadcrumb cus-bg-color">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+              {% if post_item.category_id %}
+            <li class="breadcrumb-item active"><a href="{% url 'category-list' post_item.category_id %}">{{ post_item.category }}</a></li>
+              {% endif %}
+          </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-9 main-box">
+            <h3>{{ post_item.title }}</h3>
+            <hr/>
+            <div class="post-head">
+                <span class="font01">分类 : <a href="{% url 'category-list' post_item.category_id %}">{{ post_item.category }}</a><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span></span>
+                <span class="font01">标签 :
+                    {% for tag in post_item.get_tags %}
+                        <a href="{% url 'tag-list' tag.id %}">{{ tag.name }}</a><span>&nbsp;&nbsp;</span>
+                    {% endfor %}
+                </span>
+                <span class="font01"><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>发布 : {{ post_item.created_time }}</span>
+                <span class="font01"><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>浏览数 : {{ post_item.pv }}</span>
+                <span class="font01"><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>被{{ post_item.uv }}人查看过</span>
+            </div>
+            <div class="post-content">
+                {% autoescape off %}{{ post_item.content }}{% endautoescape %}
+            </div>
+            <br/>
+            <hr/>
+            {% comment_block request.path %}
+        </div>
+        <div class="col-3">
+            {% for sidebar in sidebars %}
+{#                  <p>{{ sidebar.content }}</p>#}
+                <div class="card" style="margin-top: 5px;margin-bottom: 5px;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ sidebar.display_type.type }}</h5>
+                      {% if sidebar.display_type.type == '最新文章' %}
+                          {% for post in latest_posts %}
+                    <h6 class="card-text"><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h6>
+                          {% endfor %}
+                      {% endif %}
+
+                      {% if sidebar.display_type.type == '热门排行' %}
+                          {% for post in hot_posts %}
+                    <h6 class="card-text"><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h6>
+                          {% endfor %}
+                      {% endif %}
+
+                      {% if sidebar.display_type.type == '最新评论' %}
+                          {% for comment in latest_comment %}
+                    <h6 class="card-text"><a href="{{ comment.target }}">{{ comment.owner.username }}: {{ comment.content }}</a></h6>
+                          {% endfor %}
+                      {% endif %}
+                  </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="container alert cus-bg-color">
+        <h5 class="text-muted">所有分类:</h5>
+    {% for category in categories %}
+        <a href="{% url 'category-list' category.id %}"><span>&nbsp;&nbsp;{{ category.name }}&nbsp;&nbsp;</span></a>
+    {% endfor %}
+    <hr/>
+</div>
+<div class="container footer text-center" style="margin-top: 30px;margin-bottom: 60px;font-size: 17px">
+    <span class="text-muted">Power by xiaohao</span>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+</script>
+{% block js %}{% endblock %}
+</html>

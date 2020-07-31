@@ -1,0 +1,19 @@
+<div class="container" style="margin-bottom: 30px;">
+    <form class="form-group" method="post" action="{% url 'comment' %}">
+        {% csrf_token %}
+        <input name="target" type="hidden" value="{{ target }}" />
+        昵称:{{ comment_form.nickname}}<br/>
+        内容:{{ comment_form.content }}<br/>
+        <button type="submit" class="btn btn-outline-success">评论</button>
+    </form>
+</div>
+{#<div style="width:100%;height: 15px;background-color: #f9f9f9;margin-bottom: 10px;">#}
+{#</div>#}
+<div class="container" style="margin-bottom: 30px;border: 2px solid #f9f9f9;border-radius: 8px;">
+    <p style="color: #6c757d;height: 30px;line-height: 30px;margin: 8px 0;">读者评论:</p>
+    {% for commment in comment_list %}
+    <p style="color: #6c757d;height: 30px;line-height: 30px;margin: 8px 0;padding-left: 20px;">
+        {{ commment.owner.username }}: {{ commment.content }}
+    </p>
+    {% endfor %}
+</div>

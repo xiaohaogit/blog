@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>评论结果页</title>
+</head>
+<body>
+{% if succeed %}
+    评论成功<a href="{{ target }}">返回</a>
+{% else %}
+    评论失败<a href="{{ target }}">返回</a>
+{% endif %}
+</body>
+</html>
