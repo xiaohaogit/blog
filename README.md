@@ -7,3 +7,11 @@
 小编喜欢用豆瓣的镜像，形如：pip install django -i https://pypi.douban.com/simple
 
 如果遇到插件版本不支持问题：请自行百度 https://pypi.org/ 寻找合适版本的插件
+
+此项目安装的插件好像只需要通过：
+pip install django -i https://pypi.douban.com/simple
+pip install requests -i https://pypi.douban.com/simple
+以及进入xadmin所在目录使用命令：
+pip install -r requirements.txt -i https://pypi.douban.com/simple
+
+即可完成插件的安装，如果遇到插件遗漏的情况可以参考小编上传的图片
