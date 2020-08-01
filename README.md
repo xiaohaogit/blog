@@ -3,6 +3,10 @@
 小编使用的python3.7+Django2.2
 
 
+## 数据可以通过csv文件导入，
+## 也可直接利用sql文件创建model(参看https://docs.djangoproject.com/zh-hans/3.0/howto/legacy-databases/)
+
+
 ## 系统的效果可以通过查看 “参考图片” 获知。
 
 
