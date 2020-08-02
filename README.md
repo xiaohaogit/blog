@@ -24,3 +24,5 @@ pip install requests -i https://pypi.douban.com/simple
 pip install -r requirements.txt -i https://pypi.douban.com/simple
 
 即可完成插件的安装，如果遇到插件遗漏的情况可以参考小编上传的图片
+
+#### 小编的联系方式： 321459055@qq.com
