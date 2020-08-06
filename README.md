@@ -1,6 +1,5 @@
 # blog个人博客系统
-使用Django+Bootstrap写的一个入门级别的博客系统
-小编使用的python3.7+Django2.2
+使用Python3.7+Django2.0+Bootstrap4写的一个入门级别的博客系统
 
 
 ## 数据可以通过csv文件导入，
