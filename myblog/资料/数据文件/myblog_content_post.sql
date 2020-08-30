@@ -26,17 +26,19 @@ CREATE TABLE `content_post` (
   `id` int NOT NULL AUTO_INCREMENT,
   `status` int unsigned NOT NULL,
   `title` varchar(128) NOT NULL,
-  `desc` varchar(128) DEFAULT NULL,
-  `content` longtext NOT NULL,
+  `desc` varchar(128) NOT NULL,
   `created_time` datetime(6) NOT NULL,
-  `category_id` int DEFAULT NULL,
+  `content` longtext NOT NULL,
+  `pv` int unsigned NOT NULL,
+  `uv` int unsigned NOT NULL,
+  `category_id` int NOT NULL,
   `owner_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `content_post_category_id_7271e3e6_fk_content_category_id` (`category_id`),
   KEY `content_post_owner_id_72662fce_fk_user_userprofile_id` (`owner_id`),
   CONSTRAINT `content_post_category_id_7271e3e6_fk_content_category_id` FOREIGN KEY (`category_id`) REFERENCES `content_category` (`id`),
   CONSTRAINT `content_post_owner_id_72662fce_fk_user_userprofile_id` FOREIGN KEY (`owner_id`) REFERENCES `user_userprofile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +47,7 @@ CREATE TABLE `content_post` (
 
 LOCK TABLES `content_post` WRITE;
 /*!40000 ALTER TABLE `content_post` DISABLE KEYS */;
-INSERT INTO `content_post` VALUES (13,1,'Django的xadmin','Django的一个第三方插件','<p>&nbsp;&nbsp;&nbsp;&nbsp;xadmin在使用时报错 &nbsp;A server error occur.Please contact administration</p><p>&nbsp;&nbsp;&nbsp;&nbsp;问题来源\r\nmodel的__str__方法中返回了不存在字段\r\n\r\n另外在引用xadmin时，</p><p>&nbsp;&nbsp;&nbsp;&nbsp;注意要使用url(r&#39;xadmin/&#39;, xadmin.site.urls),\r\n不要使用include进行路由的转发</p>','2020-07-30 06:34:02.326182',1,1),(14,1,'Python虚拟环境的使用','讲述虚拟环境的使用以及注意事项','<p>Python虚拟环境的使用Python虚拟环境的使用Python虚拟环境的使用讲述虚拟环境的使用以及注意事项</p>','2020-07-30 06:33:43.467896',2,1),(15,1,'我是怎么学习python的','介绍小编学习python并找到工作的主要历程','<p>&nbsp;&nbsp;&nbsp;&nbsp;Python略我千百遍，我待python如初恋。</p>','2020-07-30 06:34:09.843358',2,1),(16,1,'axios的使用','axios是vue的一个插件','<p>安装npm install axios vue-axios&nbsp;</p><p>axios是vue用来转发post,get等http请求的</p><p>vue-axios是用来将axios绑定到vue实例上</p>','2020-07-30 06:33:34.139207',3,1),(17,1,'CSS的瀑布流布局','瀑布流布局是一种网页布局','<p>&nbsp;&nbsp;&nbsp;&nbsp;瀑布流，又称瀑布流式布局。是比较流行的一种网站页面布局，视觉表现为参差不齐的多栏布局，随着页面滚动条向下滚动，这种布局还会不断加载数据块并附加至当前尾部。最早采用此布局的网站是Pinterest，逐渐在国内流行开来。国内大多数清新站基本为这类风格</p>','2020-07-30 06:34:25.785927',4,1),(18,1,'Django的分页','为了数据更好的展示，分页机制举足轻重','<p>Django自带分页机制，\r\nswiper可以实现分页，\r\nelementUI也可以实现分页</p>','2020-07-30 06:33:10.360981',1,1);
+INSERT INTO `content_post` VALUES (1,1,'我是怎么学习python的','介绍小编学习python并找到工作的主要历程','2020-07-31 03:59:21.045743','<p><span style=\"font-size:16px;font-family:宋体\">Python略我千百遍，我待python如初恋。</span></p>',16,10,2,1),(2,1,'Django的xadmin','Django的一个第三方插件','2020-07-31 04:01:23.691149','<p><span style=\"font-size:16px;font-family:宋体\">xadmin在使用时报错: A server error occur.Please contact administration</span></p><p><span style=\"font-size:16px;font-family:宋体\">问题来源: model的__str__方法中返回了不存在字段&nbsp;</span></p><p><span style=\"font-size:16px;font-family:宋体\">另外在引用xadmin时，注意要使用url(r&#39;xadmin&#39;, xadmin.site.urls), 不要使用include进行路由的转发,如</span><span style=\"font-family: 宋体;\">url(r&#39;xadmin&#39;, include(xadmin.site.urls))</span></p><p><br/></p>',14,8,1,1),(3,1,'CSS的瀑布流布局','瀑布流布局是一种网页布局','2020-07-31 04:02:08.410338','<p><span style=\"font-size:16px;font-family:宋体\">&nbsp;&nbsp;&nbsp;&nbsp;瀑布流，又称瀑布流式布局。是比较流行的一种网站页面布局，视觉表现为参差不齐的多栏布局，随着页面滚动条向下滚动，这种布局还会不断加载数据块并附加至当前尾部。最早采用此布局的网站是Pinterest，逐渐在国内流行开来。国内大多数清新站基本为这类风格。</span></p>',12,9,3,1),(4,1,'Django的分页','为了数据更好的展示，分页机制举足轻重','2020-07-31 04:03:06.474402','<p><span style=\"font-size:16px;font-family:宋体\">Django自带分页机制</span></p><p><span style=\"font-size:16px;font-family:宋体\">swiper可以实现分页</span></p><p><span style=\"font-size:16px;font-family:宋体\">elementUI也可以实现分页</span></p>',10,7,1,1),(5,1,'Python虚拟环境的使用','讲述虚拟环境的使用以及注意事项','2020-07-31 04:03:56.617075','<p><span style=\"font-size:16px;font-family:宋体\">Python虚拟环境的使用Python虚拟环境的使用Python虚拟环境的使用讲述虚拟环境的使用以及注意事项</span></p><p><br/></p>',13,8,2,1),(6,1,'axios的使用','axios是vue的一个插件','2020-07-31 09:57:57.111160','<p><span style=\"font-size:16px;font-family:宋体\">安装npm install axios vue-axios</span></p><p><span style=\"font-size:16px;font-family:宋体\">axios是vue用来转发post,get等http请求的</span></p><p><span style=\"font-size:16px;font-family:宋体\">vue-axios是用来将axios绑定到vue实例上</span></p>',47,25,4,1);
 /*!40000 ALTER TABLE `content_post` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-30 22:46:59
+-- Dump completed on 2020-08-30 18:18:27

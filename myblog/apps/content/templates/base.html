@@ -35,15 +35,6 @@
         .main-box{
             padding: 10px;
         }
-        .search-box{
-            width: 270px;
-            height: 70px;
-            line-height: 70px;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            margin-right: 25px;
-        }
         .position{
             position: relative;
         }
@@ -59,7 +50,7 @@
 <body>
 <div class="index-nav">
     <div class="container position">
-        <div class="row" style="justify-content: space-between">
+        <div class="row" style="justify-content: space-around;margin-left: 5px;margin-right: 5px;">
             <div style="display: flex;">
                 <a href="/"><span class="index-nav-item">首页</span></a>
                 {% for cate in navs %}
@@ -69,16 +60,15 @@
                 <a href="#"><span class="index-nav-item">关于博主</span></a>
             </div>
 
-            <div class="search-box">
-                <form class="form-inline my-2 my-lg-0" action="{% url 'search-list' %}" method="get">
-                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-                         name="keyword" value="{{ keyword }}">
-                  <button class="btn btn-outline-success my-2 my-sm-0" style="color: white;
-                  border-color: white;" type="submit">
-                      搜索
-                  </button>
-                </form>
-            </div>
+            <form class="form-inline my-2 my-lg-0" action="{% url 'search-list' %}" method="get">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                     name="keyword" value="{{ keyword }}">
+              <button class="btn btn-outline-success my-2 my-sm-0" style="color: white;
+              border-color: white;" type="submit">
+                  搜索
+              </button>
+            </form>
+
         </div>
     </div>
 </div>

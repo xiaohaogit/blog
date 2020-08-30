@@ -18,7 +18,8 @@ class CommentViewMixin:
             "sidebars": SideBar.get_all()
         })
         context.update({
-            "navs": Category.get_navs()
+            "navs": Category.get_navs()[:2]
+            # 只让导航栏显示两个分类
         })
         context.update({
             'tags': Tag.objects.filter(status=Tag.STATUS_NORMAL)
@@ -65,7 +66,7 @@ class PostDetailView(CommentViewMixin, DetailView):
         pv_key = "pv:%s:%s" % (uid, self.request.path)
         if not cache.get(pv_key):
             increase_pv = True
-            cache.set(pv_key, 1, 1*60)
+            cache.set(pv_key, 1, 1 * 60)
 
         uv_key = "uv:%s:%s:%s" % (uid, str(date.today()), self.request.path)
         if not cache.get(uv_key):
@@ -73,7 +74,7 @@ class PostDetailView(CommentViewMixin, DetailView):
             cache.set(uv_key, 1, 24 * 60 * 60)
 
         if increase_pv and increase_uv:
-            Post.objects.filter(pk=self.object.id).update(pv=F('pv')+1, uv=F('uv')+1)
+            Post.objects.filter(pk=self.object.id).update(pv=F('pv') + 1, uv=F('uv') + 1)
         elif increase_pv:
             Post.objects.filter(pk=self.object.id).update(pv=F('pv') + 1)
         elif increase_uv:

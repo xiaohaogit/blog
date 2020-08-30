@@ -1,0 +1,11 @@
+Django==2.2
+pymysql==0.10.0
+django-crispy-forms==1.9.2
+django-import-export==2.3.0
+django-reversion==3.0.7
+django-formtools==2.2
+future==0.18.2
+httplib2==0.18.1
+six==1.15.0
+django-autocomplete-light==3.5.1
+requests==2.24.0
